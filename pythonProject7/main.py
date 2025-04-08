@@ -4,13 +4,6 @@ from dotenv import load_dotenv
 from pytimeparse import parse
 
 
-load_dotenv()
-TG_TOKEN = os.environ['TELEGRAM_TOKEN']
-TG_CHAT_ID = os.environ['TG_CHAT_ID']
-bot = ptbot.Bot(TG_TOKEN)
-bot.send_message(TG_CHAT_ID, "Бот запущен")
-
-
 def reply(chat_id, text):
     time = parse(text)
     message_id = bot.send_message(chat_id, "Осталось {} секунд!".format(time))
@@ -37,8 +30,15 @@ def render_progressbar(total, iteration, prefix='',
     pbar = fill * filled_length + zfill * (length - filled_length)
     return '{0} |{1}| {2}% {3}'.format(prefix, pbar, percent, suffix)
 
-bot = ptbot.Bot(TG_TOKEN)
-bot.reply_on_message(reply)
-bot.run_bot()
 
 
+if __name__ == "__main__":
+    load_dotenv()
+    TG_TOKEN = os.environ['TELEGRAM_TOKEN']
+    TG_CHAT_ID = os.environ['TG_CHAT_ID']
+    bot = ptbot.Bot(TG_TOKEN)
+    bot.send_message(TG_CHAT_ID, "Бот запущен")
+
+    bot = ptbot.Bot(TG_TOKEN)
+    bot.reply_on_message(reply)
+    bot.run_bot()
